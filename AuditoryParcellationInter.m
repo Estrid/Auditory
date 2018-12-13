@@ -36,9 +36,9 @@ surf = SurfStatReadSurf( {...
 [datadir subjectID '/rh.inflated']} );
 
 % get masks of left and right hemispheres excluding medial wall
-lmask = gifti([mmpdir '/L.atlasroi.32k_fs_LR.shape.gii']);
+lmask = gifti([mmpdir 'L.atlasroi.32k_fs_LR.shape.gii']);
 lmask = lmask.cdata;
-rmask = gifti([mmpdir '/R.atlasroi.32k_fs_LR.shape.gii']);
+rmask = gifti([mmpdir 'R.atlasroi.32k_fs_LR.shape.gii']);
 rmask = rmask.cdata;
 hemimask = vertcat(lmask, rmask);
 hemisize = zeros(size(rmask));
