@@ -24,13 +24,15 @@ for i = 1:length(areas)
         conn_L = importdata([datadir subjectID '_AuditoryParcellation_' session '_meanconn_' area '_L.1D']);
         groupconn_L(:,h) = conn_L;
         catch
-            fprintf('error in subject # %u\n - left %s does not exist', subject_list(h), area)
+            fprintf('error in subject # %u - left %s does not exist\n', subject_list(h), area)
             errors = errors+1;
             continue
+        end
+        try
         conn_R = importdata([datadir subjectID '_AuditoryParcellation_' session '_meanconn_' area '_R.1D']);
         groupconn_R(:,h) = conn_R;
         catch
-            fprintf('error in subject # %u\n - right %s does not exist', subject_list(h), area)
+            fprintf('error in subject # %u - right %s does not exist\n', subject_list(h), area)
             errors = errors+1;
             continue
         end
@@ -49,15 +51,15 @@ for i = 1:length(areas)
         slm = SurfStatT(slm, contrast);
         [~, ~] = SurfStatP(slm, mask, 0.05);
         
-        if correction == 'cluster' % applies cluster correction
-        t_thresh = slm.t;
-        resels = SurfStatResels(slm, mask);
-        statthresh = stat_threshold(resels, length(slm.t), 1, slm.df);
-        t_thresh(t_thresh<statthresh)=0;
-        elseif correction == 'FDR' % applies FDR correction
-        qval = SurfStatQ(slm, mask);
-        t_thresh = slm.t;
-        t_thresh(qval.Q>0.05) = 0;
+        if isequal(correction, 'cluster') % applies cluster correction
+            t_thresh = slm.t;
+            resels = SurfStatResels(slm, mask);
+            statthresh = stat_threshold(resels, length(slm.t), 1, slm.df);
+            t_thresh(t_thresh<statthresh)=0;
+        elseif isequal(correction, 'FDR') % applies FDR correction
+            qval = SurfStatQ(slm, mask);
+            t_thresh = slm.t;
+            t_thresh(qval.Q>0.05) = 0;
         end
         
         % viz and save
@@ -70,7 +72,10 @@ for i = 1:length(areas)
         fid = fopen([filename '.1D'],'w');
         fprintf(fid, '%u\n', t_thresh);
         fclose(fid);
-
+        
+        %normalize group t-map
+        t_thresh_norm = (t_thresh - min(t_thresh)) / (max(t_thresh)-min(t_thresh));
+        
         %calculate fit score
         for h=1:size(groupconn,1)
             %normalize indiv connectivity map
@@ -104,12 +109,12 @@ for i = 1:length(areas)
         end
 
         slm = SurfStatT(slm, contrast);
-        if correction == 'cluster'
+        if isequal(correction, 'cluster')
             resels = SurfStatResels(slm, mask);
             statthresh = stat_threshold(resels, length(slm.t), 1, slm.df);
             t_thresh = slm.t;
             t_thresh(t_thresh<statthresh)=0;
-        elseif correction == 'FDR'
+        elseif isequal(correction, 'FDR')
             qval = SurfStatQ(slm, mask);
             t_thresh = slm.t;
             t_thresh(qval.Q>0.05) = 0;

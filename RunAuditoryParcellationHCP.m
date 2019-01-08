@@ -1,7 +1,7 @@
 subject_list = importdata('/home/estrid/scripts/bash/subjectlist.txt'); % this should point to a text file containing subject IDs
 datadir = ('/home/estrid/estrid_data/Data/HCP/HCP_S1200_glyphsets/'); % should point to where individual subject data is
 mmpdir = ('/home/estrid/Data/HCP/GroupAvg820_MMP/'); % should point to where group average data is
-outdir = ('/home/estrid/Data/test/'); % should point to where you want results to be saved
+outdir = ('/home/estrid/Data/HCP/AuditoryParcellation/'); % should point to where you want results to be saved
 session = ('REST1'); % identifies the rs session you wan to use - 'REST1' or 'REST2'
 correction = 'FDR'; %indicates the type of correction to apply for the group connectivity maps - can be 'FDR' or 'cluster'
 

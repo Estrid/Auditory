@@ -26,7 +26,7 @@ for h = 1:length(subject_list)
     for i = 1:max(part)
         part_area = double(part==i);
         if max(part_area)<1
-            fprintf(fid, 'area %s does not exist in subject # %u\n', char(areas(i)), subject_list(h));
+            fprintf(fid, 'error in subject # %u - %s does not exist\n', subject_list(h), char(areas(i)));
             errors = errors+1;
         else
         end
