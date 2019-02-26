@@ -2,7 +2,7 @@ function[] = GroupProbParcellation(subject_list, session, datadir, mmpdir, outdi
 
     surf = SurfStatReadSurf( {...
     fullfile(mmpdir, 'lh.very_inflated'),...
-    fullfile(mmpdir 'rh.very_inflated')} );
+    fullfile(mmpdir, 'rh.very_inflated')} );
 
     areas_L = {'PAC_L', 'SAC_L', 'RI_L', 'A5_L', 'STGa_L', 'STSda_L', 'STSdp_L', 'STSva_L', 'STSvp_L'};
     areas_R = {'PAC_R', 'SAC_R', 'RI_R', 'A5_R', 'STGa_R', 'STSda_R', 'STSdp_R', 'STSva_R', 'STSvp_R'};
